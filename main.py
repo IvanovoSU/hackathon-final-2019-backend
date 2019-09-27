@@ -42,14 +42,6 @@ class User(db.Model, UserMixin):
 def print_err(s):
     print(s, file=sys.stderr)
 
-def generate_page(data):
-    with open('include/header.html', 'r') as header:
-        page = header.read()
-    page += data
-    with open('include/footer.html', 'r') as footer:
-        page += footer.read()
-    return page
-
 @app.route('/js/<path:path>')
 def send_js(path):
     return send_from_directory('include/js', path)
@@ -79,16 +71,20 @@ def login():
     else:
         with open('include/login.html', 'r') as page:
             data=page.read()
-        return generate_page(data)
+        return data
     
 @app.route('/admin', methods = ["GET", "POST"])
 @login_required
 def admin():
-    return "admin"
+    with open('include/admin.html', 'r') as page:
+        data=page.read()
+    return data
 
 @app.route('/', methods = ["GET", "POST"])
 def root():
-    return "root"
+    with open('include/index.html', 'r') as page:
+        data=page.read()
+    return data
 
 @app.route("/logout")
 @login_required
