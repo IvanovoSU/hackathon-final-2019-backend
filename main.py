@@ -60,12 +60,12 @@ def login():
         username = request.form['username']
         password = request.form['password']
         next = request.args.get('next')
-        if next == 'logout':
-            next = ''
+        if next and ('logout' in next):
+            next = None
         user = User.query.filter_by(username=username, password=password).first()
         if not (user is None):  
             login_user(user, remember=True)
-            return redirect(next or flask.url_for('/admin'))
+            return redirect(next or url_for('admin'))
         else:
             return redirect(url_for('login', next=next))
     else:
