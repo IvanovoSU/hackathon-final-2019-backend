@@ -15,9 +15,6 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-def init_db():
-    db.create_all()
-
 class User(db.Model, UserMixin):
     id = Column(Integer, primary_key=True)
     username = Column(String(50), unique=True)
@@ -38,6 +35,19 @@ class User(db.Model, UserMixin):
 
     def get_id(self):
         return self.id
+
+class Map(db.Model):
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    author = Column(Integer, db.ForeignKey('user.id'))
+    city = Column(String(120), unique=True)
+    edit_link = Column(String(10000), unique=True)
+    show_link = Column(String(10000), unique=True)
+
+    def __init__(self, author, city, edit_link, show_link):
+        self.author = author
+        self.city = city
+        self.edit_link = edit_link
+        self.show_link = show_link
 
 def print_err(s):
     print(s, file=sys.stderr)
@@ -64,7 +74,7 @@ def login():
             next = None
         user = User.query.filter_by(username=username, password=password).first()
         if not (user is None):  
-            login_user(user, remember=True)
+            login_user(user, remember=False)
             return redirect(next or url_for('admin'))
         else:
             return redirect(url_for('login', next=next))
@@ -77,6 +87,13 @@ def login():
 @login_required
 def admin():
     with open('include/admin.html', 'r') as page:
+        data=page.read()
+    return data
+
+@app.route('/admin/editmaps', methods = ["GET", "POST"])
+@login_required
+def editmaps():
+    with open('include/editmaps.html', 'r') as page:
         data=page.read()
     return data
 
