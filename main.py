@@ -3,7 +3,7 @@ import sys
 from sqlalchemy import Column, Integer, String  
 from flask import Flask, request, redirect, url_for, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, LoginManager, login_required, login_user, logout_user
+from flask_login import current_user, UserMixin, LoginManager, login_required, login_user, logout_user
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.abspath('main.db')
@@ -90,11 +90,50 @@ def admin():
         data=page.read()
     return data
 
+def get_maps():
+    return Map.query.all()
+
 @app.route('/admin/editmaps', methods = ["GET", "POST"])
 @login_required
 def editmaps():
+    if request.method == 'POST':
+        city = request.form['city']
+        edit_link = request.form['edit_link']
+        show_link = request.form['show_link']
+        nmap = Map(current_user.id, city, edit_link, show_link)
+        db.session.add(nmap)
+        db.session.commit()
+
     with open('include/editmaps.html', 'r') as page:
         data=page.read()
+    mps = get_maps()
+    mps_str = ""
+    for i in range(len(mps)):
+        user = User.query.filter_by(id = mps[i].author).first()
+        mps_str += "<tr>\n"
+        mps_str += "<td>" + mps[i].city + "</td>\n"
+        mps_str += "<td>" + user.username + "</td>\n"
+        if user.id == current_user.id:
+            mps_str += "<td><a href=" + mps[i].edit_link + ">Изменить</a></td>\n"
+        else:
+            mps_str += "<td>Изменять можно только города, добавленные вами</td>\n"    
+        mps_str += "</tr>\n"
+    data = data.replace('%MAP_TABLE%', mps_str)
+    return data
+
+@app.route('/maps', methods = ["GET", "POST"])
+def maps():
+    ct = 1
+    if 'city_id' in request.form:
+        ct = int(request.form['city_id'])
+    with open('include/maps.html', 'r') as page:
+        data=page.read()
+    mps = get_maps()
+    mps_str = ""
+    for i in range(len(mps)):
+        mps_str += '<option value="' + str(mps[i].id) + '">'+ mps[i].city + "</option>\n"  
+    data = data.replace('%MAPS%', mps_str)
+    data = data.replace('%MAP%', mps[ct].show_link)
     return data
 
 @app.route('/', methods = ["GET", "POST"])
