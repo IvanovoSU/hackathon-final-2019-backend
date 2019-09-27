@@ -4,9 +4,14 @@
         <title>123</title>
     </head>
     <body>
-        <select>
-          %MAPS%
-        </select>
+        <form id="mapform" method="POST">
+            <select id="myselect" name = "city_id" onchange="document.getElementById('mapform').submit()">
+              %MAPS%
+          </select> 
+        </form>
         <div id="map">%MAP%</div>  
     </body>
+    <script type="text/javascript">
+        document.getElementById("myselect").value = "%MAP_NUM%";
+    </script>
 </html>
