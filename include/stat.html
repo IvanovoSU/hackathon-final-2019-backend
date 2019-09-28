@@ -5,12 +5,13 @@
 <title>Интерактивная карта России</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Интерактивная карта России" />
-
+<link rel="stylesheet" href="css/main.css">
+<script src="js/jquery.min.js"></script>
+<script src="js/panel.js"></script> 
 <script type="text/javascript" src="js/stat.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
 <script type="text/javascript">$(function() {$('.map').maphilight();});</script>
 <script type="text/javascript" src="js/tooltip.js"></script>
-<script type="text/javascript" src="js/chart.js" ></script>
 
 <style type="text/css">
 #tooltip{background:#FFFFFF;
@@ -23,10 +24,31 @@ position:absolute;
 visibility:hidden
 }</style>
 </head>
-
-<!--begin-->
-<img class="map" src="img/map.gif" width="800" height="485" usemap="#rf" border="0"/>
-
+<body>
+	<nav class="navbar">
+            <ul class="menu">
+                <li><a href="/">Назад</a>
+                </li>
+            </ul>
+        </nav>
+        <main class="cd-main-content">
+            <a href="#0" class="cd-btn">Параметры</a>
+			<img class="map" src="https://konyakov.ru/pubs/rr/800px-Blank_map_of_Russia-gray.gif" usemap="#rf"/>
+        </main>
+        <div class="cd-panel from-left">
+            <header class="cd-panel-header">
+                <h1>Статистика</h1>
+                <a href="#0" class="cd-panel-close">Закрыть</a>
+            </header>
+            <div class="cd-panel-container">
+                <div class="cd-panel-content">
+                <div class="stat-list">
+                <ul>
+                    <li><a href="#">Образование</a></li>
+                    <li><a href="#">Демография</a></li>
+                </ul>
+                </div>
+            </div>
 <map name="rf">
 <area onclick="myFunction(this)" title="Белгородская область" id="35" alt="" shape="poly" coords="38,305,38,310,42,314,46,315,47,318,48,322,48,326,49,328,54,323,55,316,54,312,51,309,47,308,41,304">
 
@@ -214,9 +236,7 @@ visibility:hidden
 </map>
 <!--end of map-->
 
-<div>
-    <canvas id="piechart"></canvas>
-</div>
+
  
 <form method="post" id="ajax_form" action="" > 
 <input type="hidden" id="regionid" name="regionid"/><br> 
@@ -242,7 +262,6 @@ function sendAjaxForm() {
         data: $("#ajax_form").serialize(),  
         success: function(response) { //Данные отправлены успешно
             data = $.parseJSON(response);
-            console.log(data)
         },
         error: function(response) {
             $('#result_form').html('Ошибка. Данные не отправлены.');
@@ -250,33 +269,5 @@ function sendAjaxForm() {
     });
 }
 </script>
- <script type="text/javascript">
-    var ctx = document.getElementById('piechart').getContext('2d');
-var chart = new Chart(ctx, {
-    // The type of chart we want to create
-    type: 'pie',
- 
-    // The data for our dataset
-    data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-        datasets: [{
-            label: 'My First dataset',
-            backgroundColor: [ 'rgb(255, 99, 132)',
-                                'rgb(255,0,0)',
- 
- 
-            ],
-            borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                ],
- 
-            data: [0, 10, 5, 2, 20, 30, 45]
-        }]
-    },
- 
-    // Configuration options go here
-    options: {}
-});
-    </script>
 </body>
 </html>

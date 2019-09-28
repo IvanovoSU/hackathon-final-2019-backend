@@ -3,21 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <title>Данные</title>
-    <link rel="stylesheet" href="/css/main.css">
+ <link rel="stylesheet" href="/css/main.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
 </head>
     <body>
         <nav class="navbar">
             <ul class="menu">
-                <li><a href="/logout">Выход</a>
+                <li><a href="/admin">Назад</a>
                 </li>
             </ul>
         </nav>
         <div class="datalist">
         <form id="addata" method="POST" enctype="multipart/form-data">
             <select name="datatype">
-                <option value="" hidden disabled selected>ВЫБЕРИТЕ</option>
                 <option value="1">НАСЕЛЕНИЕ ПО ВОЗРАСТНЫМ ГРУППАМ, ПОЛУ И УРОВНЮ ОБРАЗОВАНИЯ ПО СУБЪЕКТАМ РОССИЙСКОЙ ФЕДЕРАЦИИ</option>
             </select>
             <input name="file" id="file" type="file" accept=".xlsx" />

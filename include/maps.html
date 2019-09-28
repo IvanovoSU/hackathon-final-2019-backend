@@ -6,14 +6,34 @@
     <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-        <form id="mapform" method="POST">
-            <select id="myselect" name = "city_id" onchange="document.getElementById('mapform').submit()">
-              %MAPS%
-          </select> 
-        </form>
-        <div class="map "id="map">%MAP%</div>  
-    </body>
+        <nav class="navbar">
+            <ul class="menu">
+                <li><a href="/">Назад</a>
+                </li>
+            </ul>
+        </nav>
+        <main class="cd-main-content">
+            <a href="#0" class="cd-btn">Выбрать город</a>
+        <div id="map">%MAP%</div>
+        </main>
+        <div class="cd-panel from-left">
+            <header class="cd-panel-header">
+                <h1>Список городов</h1>
+                <a href="#0" class="cd-panel-close">Закрыть</a>
+            </header>
+            <div class="cd-panel-container">
+                <div class="cd-panel-content">
+                <div class="map-list">
+                <ul>
+                    <li><a href="#">Казань</a></li>
+                    <li><a href="#">Нижний Новгород</a></li>
+                </ul>
+                </div>
+            </div>
     <script type="text/javascript">
-        document.getElementById("myselect").value = "%MAP_NUM%";
-    </script>
+    document.getElementById("myselect").value = "%MAP_NUM%";
+    </script>   
+    <script src="js/jquery.min.js"></script>
+    <script src="js/panel.js"></script> 
+    </body>
 </html>
