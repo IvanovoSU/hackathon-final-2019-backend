@@ -3,7 +3,7 @@
 import os
 import sys
 from sqlalchemy import Column, Integer, String  
-from flask import Flask, request, redirect, url_for, send_from_directory
+from flask import Flask, request, redirect, url_for, send_from_directory, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import current_user, UserMixin, LoginManager, login_required, login_user, logout_user
 from xlrd import * 
@@ -374,6 +374,16 @@ def adddata():
     with open('include/adddata.html', 'r') as page:
         data=page.read()
     return data
+
+@app.route('/stat', methods = ["GET", "POST"])
+def stat():
+    if request.method == 'POST':
+        regionid = int(request.form['regionid'])
+        return jsonify({1: 1, 10: 5})
+    else:
+        with open('include/stat.html', 'r') as page:
+            data=page.read()
+        return data
 
 
 @app.route('/', methods = ["GET", "POST"])
