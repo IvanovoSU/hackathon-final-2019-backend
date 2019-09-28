@@ -29,7 +29,7 @@ region_name_to_id = {
     'Республика Крым': 12,
     'Республика Марий Эл': 13,
     'Республика Мордовия': 14,
-    'Республика Саха': 15,
+    'Республика Саха (Якутия)': 15,
     'Республика Северная Осетия': 16,
     'Республика Татарстан': 17,
     'Республика Тыва': 18,
@@ -112,6 +112,18 @@ education_to_col = {
     7: 13, #cреднее основное
     8: 14,#начальное
     9: 15 #'не имеющие начального общего об-разования': 15
+}
+
+eduid_to_name = {
+    1: 'послевузовское',
+    2: 'высшее',
+    3: 'неоконченное высшее',
+    4: 'среднеe специальное',
+    5: 'начальное специальное',
+    6: 'среднее общее',
+    7: 'основное общее',
+    8: 'начальное',
+    9: 'без образования'
 }
 
 login_manager = LoginManager()
@@ -398,6 +410,49 @@ def adddata():
 def stat():
     if request.method == 'POST':
         regionid = int(request.form['regionid'])
+        datatype = 1#int(request.form['datatype
+        ret = {}
+        if datatype == 1:
+            reg_info = EducationRegion.query.filter_by(id=regionid).first()
+            ret['general'] = {}
+            ret['general']['послевузовское'] = reg_info.postgraduate
+            ret['general']['высшее'] = reg_info.higher
+            ret['general']['неоконченное высшее'] = reg_info.higherip
+            ret['general']['среднеe специальное'] = reg_info.middleprof
+            ret['general']['начальное специальное'] = reg_info.basicprof
+            ret['general']['среднее общее'] = reg_info.middlefull
+            ret['general']['основное общее'] = reg_info.middlemain
+            ret['general']['начальное'] = reg_info.basic
+            ret['general']['без образования'] = reg_info.noeducation
+            edu_detail = EducationDetail.query.filter_by(regionid=regionid).all()
+            for j in range(len(edu_detail)):
+                sub_dict = {}
+                sub_dict['15-17'] = edu_detail[j].y1517
+                sub_dict['18-19'] = edu_detail[j].y1819
+                sub_dict['20-24'] = edu_detail[j].y2024
+                sub_dict['25-29'] = edu_detail[j].y2529
+                sub_dict['30-34'] = edu_detail[j].y3034
+                sub_dict['35-39'] = edu_detail[j].y3539
+                sub_dict['40-44'] = edu_detail[j].y4044
+                sub_dict['45-49'] = edu_detail[j].y4549
+                sub_dict['50-54'] = edu_detail[j].y5054
+                sub_dict['55-59'] = edu_detail[j].y5559
+                sub_dict['60-64'] = edu_detail[j].y6064
+                sub_dict['65-69'] = edu_detail[j].y6569
+                sub_dict['70 и старше'] = edu_detail[j].y70p
+                eduname = eduid_to_name[edu_detail[j].datasubtype]
+                if not eduname in ret:
+                    ret[eduname] = {}
+                if edu_detail[j].gender == 1:
+                    ret[eduname]['М'] = sub_dict
+                if edu_detail[j].gender == 2:
+                    ret[eduname]['Ж'] = sub_dict
+                if edu_detail[j].livetype == 1:
+                    ret[eduname]['Город'] = sub_dict
+                if edu_detail[j].livetype == 2:
+                    ret[eduname]['Село'] = sub_dict
+        elif datatype == 2:
+            pass
         return jsonify(ret)
     else:
         with open('include/stat.html', 'r', encoding="utf-8") as page:
@@ -408,7 +463,6 @@ def stat():
 def report():
     if request.method == 'POST':
         datatype = int(request.form['datatype'])
-        datatype = 1#int(request.form['datatype'])
         ret = {}
         if datatype == 1:
             data = EducationRegion.query.all()
