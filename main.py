@@ -157,9 +157,8 @@ class EducationRegion(db.Model):
     middle = Column(Integer)
     basic = Column(Integer)
     noeducation = Column(Integer)
-    nothing = Column(Integer)
 
-    def __init__(self, id, postgraduate, higher, higherip, middle, basic, noeducation, nothing):
+    def __init__(self, id, postgraduate, higher, higherip, middle, basic, noeducation):
         self.id = id
         self.postgraduate = postgraduate
         self.higher = higher
@@ -170,7 +169,7 @@ class EducationRegion(db.Model):
 
 class EducationDetail(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
-    regionid = Column(Integer, db.ForeignKey('educationregion.id'))
+    regionid = Column(Integer, db.ForeignKey('education_region.id'))
     datasubtype = Column(Integer)
     gender = Column(Integer)
     livetype = Column(Integer)
@@ -320,7 +319,7 @@ def calcdata(datatype, filename):
     for i in range(sheet.nrows):
         if sheet.cell(i,1).value in region_name_to_id:
             regid = region_name_to_id[sheet.cell(i,1).value]
-            postgrad = sheet.cell(i+2,4).value
+            postgraduate = sheet.cell(i+2,4).value
             higher  =  sheet.cell(i+2,5).value
             higherip = sheet.cell(i+2,9).value
             middle = sheet.cell(i+2,10).value
@@ -334,28 +333,28 @@ def calcdata(datatype, filename):
             livetype = 0
             for ed in range(1, len(education_to_col) + 1):
                 datasubtype = ed
-                data = get_subdata(sheet, 21, education_to_col[ed])
+                data = get_subdata(sheet, i + 21, education_to_col[ed])
                 edd = EducationDetail(regid, gender, livetype, datasubtype, data)
                 db.session.add(edd)
             gender = 2
             livetype = 0
             for ed in range(1, len(education_to_col) + 1):
                 datasubtype = ed
-                data = get_subdata(sheet, 40, education_to_col[ed])
+                data = get_subdata(sheet, i + 40, education_to_col[ed])
                 edd = EducationDetail(regid, gender, livetype, datasubtype, data)
                 db.session.add(edd)
             gender = 0
             livetype = 1
             for ed in range(1, len(education_to_col) + 1):
                 datasubtype = ed
-                data = get_subdata(sheet, 60, education_to_col[ed])
+                data = get_subdata(sheet, i + 60, education_to_col[ed])
                 edd = EducationDetail(regid, gender, livetype, datasubtype, data)
                 db.session.add(edd)
             gender = 0
             livetype = 2
             for ed in range(1, len(education_to_col) + 1):
                 datasubtype = ed
-                data = get_subdata(sheet, 118, education_to_col[ed])
+                data = get_subdata(sheet, i + 118, education_to_col[ed])
                 edd = EducationDetail(regid, gender, livetype, datasubtype, data)
                 db.session.add(edd)
     db.session.commit()
