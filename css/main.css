@@ -2,6 +2,9 @@
     url('https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap');
 }
 
+*{font-family:'Source Sans Pro', sans-serif;}
+
+
 body {
     background: #EDF4D6;
 }
@@ -19,7 +22,6 @@ body {
     display:inline-block;
     cursor:pointer;
     color:#000000;
-    font-family: 'Source Sans Pro', sans-serif;
     font-size: 27px;
     text-decoration:none;
     margin: 20px;
@@ -67,7 +69,6 @@ a {
 
 .menu li {
 padding-right: 20px;
-font-family: 'Source Sans Pro', sans-serif;
 font-size: 17px;
 list-style-type: none;
 }
@@ -84,7 +85,6 @@ fieldset {
 
 input {
     border: none;
-    font-family: 'Source Sans Pro', sans-serif;
     font-size: inherit;
     margin: 0;
     outline: none;
@@ -110,7 +110,6 @@ input[type="submit"] { cursor: pointer; }
     background-color: #33393D;
     border-radius: 5px 5px 0 0;
     color: #fff;
-    font-family: 'Source Sans Pro', sans-serif;
     font-size: 14px;
     padding: 20px;
     text-align: center;
@@ -161,7 +160,6 @@ input[type="submit"] { cursor: pointer; }
 
 #login-form input[type="submit"] {
     background: #8AC6D0;
-    font-family: 'Source Sans Pro', sans-serif;
     font-size: 14px;
     border-radius: 3px;
     color: #fff;
@@ -180,38 +178,43 @@ input[type="submit"] { cursor: pointer; }
 }
 
 table {
-border-spacing: 0 10px;
-font-family: 'Source Sans Pro', sans-serif;
-font-weight: bold;
+    border-spacing: 0 10px;
+    font-weight: bold;
 }
+
 th {
-padding: 10px 20px;
-background: #33393D;
-color: #ffffff;
-border-right: 2px solid; 
-font-size: 0.9em;
+    padding: 10px 20px;
+    background: #33393D;
+    color: #ffffff;
+    border-right: 2px solid; 
+    font-size: 0.9em;
 }
+
 th:first-child {
-text-align: left;
+    text-align: center;
 }
+
 th:last-child {
-border-right: none;
+    border-right: none;
 }
+
 td {
-vertical-align: middle;
-padding: 10px;
-font-size: 14px;
-text-align: center;
-border-top: 2px solid #56433D;
-border-bottom: 2px solid #56433D;
-border-right: 2px solid #56433D;
+    vertical-align: middle;
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+    border-top: 2px solid #56433D;
+    border-bottom: 2px solid #56433D;
+    border-right: 2px solid #56433D;
 }
+
 td:first-child {
-border-left: 2px solid #56433D;
-border-right: none;
+    border-left: 2px solid #56433D;
+    border-right: 2px solid #56433D;
 }
+
 td:nth-child(2){
-text-align: left;
+    text-align: center;
 }
 
 *:focus {outline: none;}
@@ -246,80 +249,117 @@ text-align: left;
 }
 
 #addmap label {
- font-size: 15px;
- width:210px;
- margin-top: 3px;
- display:inline-block;
- float:left;
- padding:3px;
+    font-size: 15px;
+    width:210px;
+    margin-top: 3px;
+    display:inline-block;
+    float:left;
+    padding:3px;
 
 }
 #addmap input {
- height:20px;
- width:150px;
- padding:5px 8px;
+    height:20px;
+    width:150px;
+    padding:5px 8px;
 }
 #addmap button {
     margin-left:156px;
 }
 
 #addmap input {
- border:1px solid #aaa;
- box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
- border-radius:2px;
- -moz-transition: padding .25s;
- -webkit-transition: padding .25s;
- -o-transition: padding .25s;
- transition: padding .25s;
+    border:1px solid #aaa;
+    box-shadow: 0px 0px 3px #ccc, 0 10px 15px #eee inset;
+    border-radius:2px;
+    -moz-transition: padding .25s;
+    -webkit-transition: padding .25s;
+    -o-transition: padding .25s;
+    transition: padding .25s;
 }
 
 #addmap input:focus {
- background: #fff;
- border:1px solid #555;
- padding-right: 70px;
- box-shadow: 0 0 3px #aaa;
+    background: #fff;
+    border:1px solid #555;
+    padding-right: 70px;
+    box-shadow: 0 0 3px #aaa;
 }
 
 /* Button Style */
 .form-btn button, button.submit {
- background-color: #8AC6D0;
- border: 1px solid #aaa;
- border-bottom: 1px solid #aaa;
- border-radius: 3px;
- -webkit-border-radius: 3px;
- -moz-border-radius: 3px;
- -ms-border-radius: 3px;
- -o-border-radius: 3px;
- box-shadow: inset 0 1px 0 0 #ccc;
- -webkit-box-shadow: 0 1px 0 0 #ccc inset ;
- -moz-box-shadow: 0 1px 0 0 #ccc inset;
- -ms-box-shadow: 0 1px 0 0 #ccc inset;
- -o-box-shadow: 0 1px 0 0 #ccc inset;
- color: white;
- font-weight: bold;
- padding: 6px 20px;
- text-align: center;
+    background-color: #8AC6D0;
+    border: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    box-shadow: inset 0 1px 0 0 #ccc;
+    -webkit-box-shadow: 0 1px 0 0 #ccc inset ;
+    -moz-box-shadow: 0 1px 0 0 #ccc inset;
+    -ms-box-shadow: 0 1px 0 0 #ccc inset;
+    -o-box-shadow: 0 1px 0 0 #ccc inset;
+    color: white;
+    font-weight: bold;
+    padding: 6px 20px;
+    text-align: center;
 }
 
 .form-btn button:hover, button.submit:hover {
- opacity:.85;
- cursor: pointer;
+    opacity:.85;
+    cursor: pointer;
 }
 
 .form-btn button:active, button.submit:active {
- border: 1px solid #22899b;
- box-shadow: 0 0 10px 5px #095663 inset;
- -webkit-box-shadow:0 0 10px 5px #095663 inset ;
- -moz-box-shadow: 0 0 10px 5px #095663 inset;
- -ms-box-shadow: 0 0 10px 5px #095663 inset;
- -o-box-shadow: 0 0 10px 5px #095663 inset;
+    border: 1px solid #22899b;
+    box-shadow: 0 0 10px 5px #095663 inset;
+    -webkit-box-shadow:0 0 10px 5px #095663 inset ;
+    -moz-box-shadow: 0 0 10px 5px #095663 inset;
+    -ms-box-shadow: 0 0 10px 5px #095663 inset;
+    -o-box-shadow: 0 0 10px 5px #095663 inset;
 }
 
 .white-popup {
-  position: relative;
-  background: #FFF;
-  padding: 20px;
-  width: auto;
-  max-width: 500px;
-  margin: 20px auto;
+    position: relative;
+    background: #FFF;
+    padding: 20px;
+    width: auto;
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.map-table {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.form-btn {
+    text-align: center;
+}
+
+.table-link {
+    color: #8AC6D0;
+    cursor: pointer;
+}
+
+.datalist{
+    margin-left: 110px;
+    margin-top: 75px;
+}
+
+#file {
+    margin-left: 10px;
+}
+
+#map{
+    width: 640px;
+    height: 480px;
+    box-shadow: 0 0 3px rgba(0,0,0,0.5);
+}
+
+.map {
+    margin-left: auto;
+    margin-right: auto;
 }

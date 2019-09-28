@@ -273,7 +273,7 @@ def editmaps():
         mps_str += "<td>" + mps[i].city + "</td>\n"
         mps_str += "<td>" + user.username + "</td>\n"
         if user.id == current_user.id:
-            mps_str += "<td><a href=" + mps[i].edit_link + ">Изменить</a></td>\n"
+            mps_str += "<td><a class=\"table-link\" href=" + mps[i].edit_link + ">Изменить</a></td>\n"
         else:
             mps_str += "<td>Изменять можно только города, добавленные вами</td>\n"    
         mps_str += "</tr>\n"
