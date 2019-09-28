@@ -106,9 +106,12 @@ education_to_col = {
     1: 4, #'послевузовское': 4,
     2: 5, #'высшее': 5,
     3: 9, #'неполное высшее': 9,
-    4: 10, #'среднеe': 10,
-    5: 11, #'начальное': 11,
-    6: 15 #'не имеющие начального общего об-разования': 15
+    4: 10, #'среднеe проф': 10,
+    5: 11, #'начальное проф': 11,
+    6: 12, #среднее полное
+    7: 13, #cреднее основное
+    8: 14,#начальное
+    9: 15 #'не имеющие начального общего об-разования': 15
 }
 
 login_manager = LoginManager()
@@ -154,16 +157,24 @@ class EducationRegion(db.Model):
     postgraduate = Column(Integer)
     higher = Column(Integer)
     higherip = Column(Integer)
-    middle = Column(Integer)
+    middleprof = Column(Integer)
+    basicprof = Column(Integer)
+    middlefull = Column(Integer)
+    middlemain = Column(Integer)
     basic = Column(Integer)
     noeducation = Column(Integer)
 
-    def __init__(self, id, postgraduate, higher, higherip, middle, basic, noeducation):
+    def __init__(self, id, postgraduate, higher, higherip, 
+                 middleprof, basicprof, middlefull, middlemain, 
+                 basic, noeducation):
         self.id = id
         self.postgraduate = postgraduate
         self.higher = higher
         self.higherip = higherip
-        self.middle = middle
+        self.middleprof = middleprof
+        self.basicprof = basicprof
+        self.middlefull = middlefull
+        self.middlemain = middlemain
         self.basic = basic
         self.noeducation = noeducation
 
@@ -214,6 +225,11 @@ def print_err(s):
 @app.route('/js/<path:path>')
 def send_js(path):
     return send_from_directory('js', path)
+
+@app.route('/imgs/<path:path>')
+def send_js(path):
+    return send_from_directory('imgs', path)
+
 
 @app.route('/css/<path:path>')
 def send_css(path):
@@ -322,11 +338,15 @@ def calcdata(datatype, filename):
             postgraduate = sheet.cell(i+2,4).value
             higher  =  sheet.cell(i+2,5).value
             higherip = sheet.cell(i+2,9).value
-            middle = sheet.cell(i+2,10).value
-            basic = sheet.cell(i+2,11).value
+            middleprof = sheet.cell(i+2,10).value
+            basicprof = sheet.cell(i+2,11).value
+            middlefull = sheet.cell(i+2,12).value
+            middlemain = sheet.cell(i+2,13).value
+            basic = sheet.cell(i+2,14).value
             noeducation = sheet.cell(i+2,15).value
             region = EducationRegion(regid, postgraduate, higher, 
-                higherip, middle, basic, noeducation) 
+                higherip, middleprof, basicprof, middlefull, middlemain, 
+                basic, noeducation) 
             db.session.add(region)
 
             gender = 1
@@ -379,7 +399,7 @@ def adddata():
 def stat():
     if request.method == 'POST':
         regionid = int(request.form['regionid'])
-        return jsonify({1: 1, 10: 5})
+        return jsonify(ret)
     else:
         with open('include/stat.html', 'r', encoding="utf-8") as page:
             data=page.read()
@@ -389,7 +409,19 @@ def stat():
 def report():
     if request.method == 'POST':
         datatype = int(request.form['datatype'])
-        return jsonify({1: 15, 10: 5})
+        datatype = 1#int(request.form['datatype'])
+        ret = {}
+        if datatype == 1:
+            data = EducationRegion.query.all()
+            for i in range(len(data)):
+                good = data[i].postgraduate + data[i].higher + data[i].higherip + \
+                    data[i].middleprof + data[i].basicprof + data[i].middlefull + \
+                    data[i].middlemain
+                bad = data[i].basic + data[i].noeducation
+                ret[data[i].id] = bad/good * 100
+        elif datatype == 2:
+            pass
+        return jsonify(ret)
     else:
         with open('include/report.html', 'r', encoding="utf-8") as page:
             data=page.read()

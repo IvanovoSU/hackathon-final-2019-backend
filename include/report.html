@@ -24,7 +24,7 @@ visibility:hidden
 </head>
 
 <!--begin-->
-<img class="map" src="https://konyakov.ru/pubs/rr/800px-Blank_map_of_Russia-gray.gif" width="800" height="485" usemap="#rf" border="0"/>
+<img class="map" src="imgs/rusmap.gif" width="800" height="485" usemap="#rf" border="0"/>
 
 <map name="rf">
 
@@ -231,11 +231,10 @@ function sendAjaxForm() {
             for(var key in data) {
                 elem = document.getElementById(key);
                 value = data[key];
-                console.log(elem);
                 if (elem != undefined) {
                     if (value > 10) {
                         elem.classList.add('verybad');
-                    } else if (value > 5) {
+                    } else if (value > 8) {
                         elem.classList.add('veryok')
                     } else {
                         elem.classList.add('verygood')
