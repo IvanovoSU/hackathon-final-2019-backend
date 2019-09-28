@@ -238,14 +238,14 @@ def login():
         else:
             return redirect(url_for('login', next=next))
     else:
-        with open('include/login.html', 'r') as page:
+        with open('include/login.html', 'r', encoding="utf-8") as page:
             data=page.read()
         return data
     
 @app.route('/admin', methods = ["GET", "POST"])
 @login_required
 def admin():
-    with open('include/admin.html', 'r') as page:
+    with open('include/admin.html', 'r', encoding="utf-8") as page:
         data=page.read()
     return data
 
@@ -263,7 +263,7 @@ def editmaps():
         db.session.add(nmap)
         db.session.commit()
 
-    with open('include/editmaps.html', 'r') as page:
+    with open('include/editmaps.html', 'r', encoding="utf-8") as page:
         data=page.read()
     mps = get_maps()
     mps_str = ""
@@ -285,7 +285,7 @@ def maps():
     ct = 1
     if 'city_id' in request.form:
         ct = int(request.form['city_id'])
-    with open('include/maps.html', 'r') as page:
+    with open('include/maps.html', 'r', encoding="utf-8") as page:
         data=page.read()
     mps = get_maps()
     mps_str = ''
@@ -371,7 +371,7 @@ def adddata():
                 file.save(filename)
                 calcdata(datatype, filename)
 
-    with open('include/adddata.html', 'r') as page:
+    with open('include/adddata.html', 'r', encoding="utf-8") as page:
         data=page.read()
     return data
 
@@ -381,7 +381,7 @@ def stat():
         regionid = int(request.form['regionid'])
         return jsonify({1: 1, 10: 5})
     else:
-        with open('include/stat.html', 'r') as page:
+        with open('include/stat.html', 'r', encoding="utf-8") as page:
             data=page.read()
         return data
 
@@ -391,14 +391,14 @@ def report():
         datatype = int(request.form['datatype'])
         return jsonify({1: 15, 10: 5})
     else:
-        with open('include/report.html', 'r') as page:
+        with open('include/report.html', 'r', encoding="utf-8") as page:
             data=page.read()
         return data
 
 
 @app.route('/', methods = ["GET", "POST"])
 def root():
-    with open('include/index.html', 'r') as page:
+    with open('include/index.html', 'r', encoding="utf-8") as page:
         data=page.read()
     return data
 
