@@ -385,6 +385,16 @@ def stat():
             data=page.read()
         return data
 
+@app.route('/report', methods = ["GET", "POST"])
+def report():
+    if request.method == 'POST':
+        datatype = int(request.form['datatype'])
+        return jsonify({1: 15, 10: 5})
+    else:
+        with open('include/report.html', 'r') as page:
+            data=page.read()
+        return data
+
 
 @app.route('/', methods = ["GET", "POST"])
 def root():

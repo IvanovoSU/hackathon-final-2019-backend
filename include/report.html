@@ -27,6 +27,7 @@ visibility:hidden
 <img class="map" src="https://konyakov.ru/pubs/rr/800px-Blank_map_of_Russia-gray.gif" width="800" height="485" usemap="#rf" border="0"/>
 
 <map name="rf">
+
 <area onclick="myFunction(this)" title="Белгородская область" id="35" alt="" shape="poly" coords="38,305,38,310,42,314,46,315,47,318,48,322,48,326,49,328,54,323,55,316,54,312,51,309,47,308,41,304">
 
 <area onclick="myFunction(this)" title="Брянская область" id="36" alt="" shape="poly" coords="37,268,33,274,35,276,37,277,37,282,44,282,44,287,48,288,53,282,54,278,56,274,56,270,47,271,42,271">
@@ -215,36 +216,45 @@ visibility:hidden
 
 
  
-<form method="post" id="ajax_form" action="" > 
-<input type="hidden" id="regionid" name="regionid"/><br> 
-
+<form method="post" id="regiondata" action="" > 
+<input type="hidden" id="datatype" name="datatype" value="1"/><br> 
 </form>
 <script type="text/javascript">
-var data = {};
-var selected = 1;
-
-function myFunction(elmnt) {
-    document.getElementById(selected.toString()).classList.remove('mapselected');
-    selected = elmnt.id;
-    elmnt.classList.add('mapselected');
-    document.getElementById("regionid").value = elmnt.id; 
-    sendAjaxForm();
-}
- 
 function sendAjaxForm() {
     $.ajax({
         url: '',
         type:     "POST", 
         dataType: "html", 
-        data: $("#ajax_form").serialize(),  
+        data: $("#regiondata").serialize(),  
         success: function(response) { //Данные отправлены успешно
             data = $.parseJSON(response);
+            for(var key in data) {
+                elem = document.getElementById(key);
+                value = data[key];
+                console.log(elem);
+                if (elem != undefined) {
+                    if (value > 10) {
+                        elem.classList.add('verybad');
+                    } else if (value > 5) {
+                        elem.classList.add('veryok')
+                    } else {
+                        elem.classList.add('verygood')
+                    }
+                }
+            }
         },
         error: function(response) {
             $('#result_form').html('Ошибка. Данные не отправлены.');
         }
     });
 }
+
+sendAjaxForm();
+
+function myFunction(elmnt) {
+    
+}
+
 </script>
 </body>
 </html>
