@@ -1,8 +1,15 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>123</title>
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование карт</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/magnific-popup.css">
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popup.js"></script>
+    <script type="text/javascript" src="/js/pform.js"></script>
+    <script type="text/javascript" src="/js/popupeffect.js"></script>
+</head>
     <body>
         <table>
             <tr>
@@ -12,12 +19,30 @@
             </tr>
             %MAP_TABLE%
         </table>
-        <div>
-            <form id="addmap" method="POST">
-                <input type="text" name="city"></input>
-                <input type="text" name="edit_link"></input>
-                <input type="text" name="show_link"></input>
-                <input type="submit"></input>
+        <div class="form-btn">
+            <a class="popup-with-form" href="#addmap"><button>Добавить карту</button></a>
+        </div>
+            <form id="addmap" class="white-popup mfp-hide" method="POST">
+                <ul>
+                    <li>
+                        <h2>Добавление карты</h2>
+                    </li>
+                    <li class="r1">
+                        <label for="city">Город: </label>
+                        <input type="text" name="city"></input>
+                    </li>
+                    <li class="r2">
+                        <label for="edit_link">Ссылка на редактирование: </label>
+                        <input type="text" name="edit_link"></input>
+                    </li>
+                    <li class="r3">
+                        <label for="show_link">Ссылка для пользователя: </label>
+                        <input type="text" name="show_link"></input>
+                    </li>
+                    <li>
+                         <button class="submit" type="submit">Добавить</button>
+                    </li>
+                </ul>
             </form>
         </div>
     </body>

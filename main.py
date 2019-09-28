@@ -6,12 +6,19 @@ from sqlalchemy import Column, Integer, String
 from flask import Flask, request, redirect, url_for, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import current_user, UserMixin, LoginManager, login_required, login_user, logout_user
+from xlrd import * 
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.abspath('main.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # SQLALCHEMY_TRACK_MODIFICATIONS deprecated
 app.config['SECRET_KEY'] = '.}kp4Gj7egnX-~,;ABEU'
 db = SQLAlchemy(app)
+
+region_name_to_id = {
+    'Белгородская область': 36,
+    'Владимирская область': 37,
+    'Ивановская область': 41,
+}
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -42,14 +49,79 @@ class Map(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     author = Column(Integer, db.ForeignKey('user.id'))
     city = Column(String(120), unique=True)
-    edit_link = Column(String(10000), unique=True)
-    show_link = Column(String(10000), unique=True)
+    edit_link = Column(String(10000))
+    show_link = Column(String(10000))
 
     def __init__(self, author, city, edit_link, show_link):
         self.author = author
         self.city = city
         self.edit_link = edit_link
         self.show_link = show_link
+
+class Region(db.Model):
+    id = Column(Integer, primary_key=True)
+    postgraduate = Column(Integer)
+    higher = Column(Integer)
+    higherip = Column(Integer)
+    middle = Column(Integer)
+    basic = Column(Integer)
+    noeducation = Column(Integer)
+    nothing = Column(Integer)
+
+    def __init__(self, id, postgraduate, higher, higherip, middle, basic, noeducation, nothing):
+        self.id = id
+        self.postgraduate = postgraduate
+        self.higher = higher
+        self.higherip = higherip
+        self.middle = middle
+        self.basic = basic
+        self.noeducation = noeducation
+        self.nothing = nothing
+
+class RegionDetail(db.Model):
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    regionid = Column(Integer, db.ForeignKey('region.id'))
+    datatype = Column(Integer)
+    gender = Column(Integer)
+    total = Column(Integer)
+    y1517 = Column(Integer)
+    y1819 = Column(Integer)
+    y2024 = Column(Integer)
+    y2529 = Column(Integer)
+    y3034 = Column(Integer)
+    y3539 = Column(Integer)
+    y4044 = Column(Integer)
+    y4549 = Column(Integer)
+    y5054 = Column(Integer)
+    y5559 = Column(Integer)
+    y6064 = Column(Integer)
+    y6569 = Column(Integer)
+    y70p =  Column(Integer)
+    workable = Column(Integer)
+    bworkable = Column(Integer)
+    y1629 = Column(Integer)
+
+    def __init__(self, regionid, datatype, gender, data):
+        self.regionid = regionid
+        self.datatype = datatype
+        self.gender = gender
+        self.total = data[0]
+        self.y1517 = data[1]
+        self.y1819 = data[2]
+        self.y2024 = data[3]
+        self.y2529 = data[4]
+        self.y3034 = data[5]
+        self.y3539 = data[6]
+        self.y4044 = data[7]
+        self.y4549 = data[8]
+        self.y5054 = data[9]
+        self.y5559 = data[10]
+        self.y6064 = data[11]
+        self.y6569 = data[12]
+        self.y70p =  data[13]
+        self.workable = data[14]
+        self.bworkable = data[15]
+        self.y1629 = data[16]
 
 def print_err(s):
     print(s, file=sys.stderr)
@@ -138,6 +210,27 @@ def maps():
     data = data.replace('%MAP%', mps[ct-1].show_link)
     data = data.replace('%MAP_NUM%', str(ct))
     return data
+
+def calcdata(datatype, filename):
+    wb = open_workbook(filename)
+
+
+@app.route('/admin/adddata', methods = ["GET", "POST"])
+@login_required
+def adddata():
+    if request.method == 'POST':
+        datatype = int(request.form['datatype'])
+        if len(request.files) > 0:
+            file = request.files['file']
+            if file:
+                filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data/'+ str(datatype) +'.xls')
+                file.save(filename)
+                calcdata(datatype, filename)
+
+    with open('include/adddata.html', 'r') as page:
+        data=page.read()
+    return data
+
 
 @app.route('/', methods = ["GET", "POST"])
 def root():
