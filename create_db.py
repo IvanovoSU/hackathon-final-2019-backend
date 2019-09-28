@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from main import db
 from main import User
 db.create_all()
