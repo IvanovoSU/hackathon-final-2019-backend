@@ -25,15 +25,26 @@
                 <div class="cd-panel-content">
                 <div class="map-list">
                 <ul>
-                    <li><a href="#">Казань</a></li>
-                    <li><a href="#">Нижний Новгород</a></li>
+                    %MAPS%
                 </ul>
                 </div>
             </div>
+
+<form method="post" id="mapform" action="" > 
+<input type="hidden" id="city_id" name="city_id" value="1" /><br> 
+</form>
+
     <script type="text/javascript">
     document.getElementById("myselect").value = "%MAP_NUM%";
     </script>   
     <script src="js/jquery.min.js"></script>
     <script src="js/panel.js"></script> 
+    <script type="text/javascript">
+        function changecity(id) {
+            document.getElementById('city_id').value = id;
+            document.getElementById('mapform').submit();
+        }
+
+    </script>
     </body>
 </html>

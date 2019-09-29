@@ -429,6 +429,13 @@ div.map {
     cursor: pointer;
 }
 
+.cd-main-content .cd-dtname {
+    position: absolute;
+    top: 72px;
+    left: 200px;
+    z-index: 900;
+}
+
 .cd-main-content .cd-btn:active {
     border: 1px solid #22899b;
     box-shadow: 0 0 10px 5px #095663 inset;
@@ -707,4 +714,16 @@ div.map {
 
 .cd-panel.is-visible {
   z-index: 2000;
+}
+
+#piechart, #horchart1 {
+  max-width: 1024px;
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#horchart2 {
+  max-width: 1024px;
+  margin-left: auto;
+  margin-right: auto;
 }

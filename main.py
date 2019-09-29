@@ -337,7 +337,7 @@ def maps():
     mps = get_maps()
     mps_str = ''
     for i in range(len(mps)):
-        mps_str += '<option value="' + str(mps[i].id) + '">'+ mps[i].city + "</option>\n"  
+        mps_str += '<li><a href="#" onclick="changecity(' + str(mps[i].id) + ')">' + mps[i].city + "</a></li>\n"  
     data = data.replace('%MAPS%', mps_str)
     if len(mps) > 0:
         data = data.replace('%MAP%', mps[ct-1].show_link)
@@ -524,10 +524,6 @@ def report():
             for i in range(len(data)):
                 ret[data[i].id] = data[i].born/data[i].dead
         return jsonify(ret)
-    else:
-        with open('include/report.html', 'r', encoding="utf-8") as page:
-            data=page.read()
-        return data
 
 
 @app.route('/', methods = ["GET", "POST"])
