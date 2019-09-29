@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
+<meta charset="utf-8"/>
 <title>Интерактивная карта России</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="Интерактивная карта России" />
-
+<link rel="stylesheet" href="css/main.css">
+<script src="js/jquery.min.js"></script>
+<script src="js/panel.js"></script> 
+<script type="text/javascript" src="js/stat.js"></script>
 <script type="text/javascript" src="js/stat.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
 <script type="text/javascript">$(function() {$('.map').maphilight();});</script>
@@ -22,10 +25,33 @@ position:absolute;
 visibility:hidden
 }</style>
 </head>
-
-<!--begin-->
-<img class="map" src="img/map.gif" width="800" height="485" usemap="#rf" border="0"/>
-
+<body>
+        <nav class="navbar">
+            <ul class="menu">
+                <li><a href="/">Назад</a>
+                </li>
+            </ul>
+        </nav>
+        <main class="cd-main-content">
+            <a href="#0" class="cd-btn">Меню</a>
+        <img class="map" src="img/map.gif" width="800" height="485" usemap="#rf" border="0"/>
+        </main>
+        <div class="cd-panel from-left">
+            <header class="cd-panel-header">
+                <h1>Меню</h1>
+                <a href="#0" class="cd-panel-close">Закрыть</a>
+            </header>
+            <div class="cd-panel-container">
+                <div class="cd-panel-content">
+                <div class="map-list">
+                <ul>
+                    <li><a href="#" id="link1">Образование</a></li>
+                    <li><a href="#" id="link2">Демография</a></li>
+                </ul>
+                </div>
+            </div>
+</div>
+</div>
 <map name="rf">
 
 <area onclick="myFunction(this)" title="Белгородская область" id="35" alt="" shape="poly" coords="38,305,38,310,42,314,46,315,47,318,48,322,48,326,49,328,54,323,55,316,54,312,51,309,47,308,41,304">
@@ -253,6 +279,15 @@ sendAjaxForm();
 function myFunction(elmnt) {
     
 }
+
+ $('#67,#link1').click(function(e) {
+            e.preventDefault();
+            var data = $('#67').mouseout().data('maphilight') || {};
+            data.alwaysOn = !data.alwaysOn;
+            data.fillColor = 'FF0000';
+            data.strokeColor = 'cc0000';
+            $('#67').data('maphilight', data).trigger('alwaysOn.maphilight');
+        });
 
 </script>
 </body>

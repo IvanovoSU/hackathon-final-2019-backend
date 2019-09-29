@@ -69,7 +69,7 @@ a {
     position: fixed;
     width: 100%;
     align-items: center;
-
+    z-index: 1000;
 }
 
 .menu {
@@ -127,7 +127,7 @@ input[type="submit"] { cursor: pointer; }
 }
 
 #login-form fieldset {
-    background: #ffffff;
+    background: #e6e6e6;
     padding: 20px;
     position: relative;
 }
@@ -272,9 +272,6 @@ td:nth-child(2){
     width:150px;
     padding:5px 8px;
 }
-#addmap button {
-    margin-left:156px;
-}
 
 #addmap input {
     border:1px solid #aaa;
@@ -378,7 +375,7 @@ td:nth-child(2){
      font-size: 16px;
     float: right;
     margin-top: 10px;
-    margin-right: 219px;
+    margin-right: 180px;
 }
 
 #file {
@@ -392,6 +389,7 @@ td:nth-child(2){
     margin-top: 90px;
     margin-left: auto;
     margin-right: auto;
+    z-index: 0;
 }
 
 div.map {
@@ -400,6 +398,7 @@ div.map {
     margin-top: 90px;
     margin-left: auto;
     margin-right: auto;
+    z-index: 0;
 }
 
 .cd-main-content .cd-btn {
@@ -423,6 +422,7 @@ div.map {
     font-weight: bold;
     padding: 6px 20px;
     text-align: center;
+    z-index: -1;
 }
 .cd-main-content .cd-btn:hover {
     opacity:.85;
@@ -488,7 +488,7 @@ div.map {
 .cd-panel-header {
   position: fixed;
   width: 26%;
-  height: 54px;
+  height: 53px;
   line-height: 5px;
   background-color: #33393D;
   z-index: 2;
@@ -703,4 +703,8 @@ div.map {
 .stat-list li a:hover {
   font-size: 25px;
   background: #d5dbc0;
+}
+
+.cd-panel.is-visible {
+  z-index: 2000;
 }

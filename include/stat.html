@@ -247,12 +247,14 @@ visibility:hidden
 <!--end of map-->
 
 <form method="post" id="ajax_form" action="" > 
+<input type="hidden" id="datatype" name="datatype" value="2" /><br> 
 <input type="hidden" id="regionid" name="regionid"/><br> 
 
 </form>
 <script type="text/javascript">
 var regdata = {};
 var selected = 1;
+var datatype = 2;
 
 function myFunction(elmnt) {
     document.getElementById(selected.toString()).classList.remove('mapselected');
@@ -288,13 +290,19 @@ function updatePieChart() {
     labels = []
     piedata = []
     bgcolors = []
-    for (var key in regdata['general']) {
-        labels.push(key)
-        piedata.push(regdata['general'][key])
-        r = (Math.random() * 255).toString()
-        g = (Math.random() * 255).toString()
-        b = (Math.random() * 255).toString()
-        bgcolors.push('rgba(' + r + ',' + g + ',' + b + ')')
+    if (datatype == 1) { 
+        for (var key in regdata['general']) {
+            labels.push(key)
+            piedata.push(regdata['general'][key])
+            r = (Math.random() * 255).toString()
+            g = (Math.random() * 255).toString()
+            b = (Math.random() * 255).toString()
+            bgcolors.push('rgba(' + r + ',' + g + ',' + b + ')')
+        }
+    } else if (datatype == 2) {
+        labels = ['Родилось в 2018', 'Умерло в 2018']
+        piedata = [regdata['born'], regdata['dead']]
+        bgcolors = ['rgba(0, 200, 0)', 'rgba(200, 0, 0)']
     }
     piechart = new Chart(ctx, {
     // The type of chart we want to create

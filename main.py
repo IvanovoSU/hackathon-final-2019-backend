@@ -31,6 +31,7 @@ region_name_to_id = {
     'Республика Мордовия': 14,
     'Республика Саха (Якутия)': 15,
     'Республика Северная Осетия': 16,
+    'Республика Северная Осетия-Алания': 16,
     'Республика Татарстан': 17,
     'Республика Тыва': 18,
     'Удмуртская Республика': 19,
@@ -92,14 +93,23 @@ region_name_to_id = {
     'Ульяновская область': 75,
     'Челябинская область': 76,
     'Ярославская область': 77,
+    'г. Москва': 78,
+    'г.Москва': 78,
     'Москва': 78,
     'Санкт-Петербург': 79,
+    'г. Санкт-Петербург': 79,
+    'г.Санкт-Петербург': 79,
     'Севастополь': 80,
     'Еврейская автономная область': 81,
+    'Еврейская авт. область': 81,
     'Ненецкий автономный округ': 82,
+    'Ненецкий авт. округ': 82,
     'Ханты-Мансийский автономный округ - Югра': 83,
+    'Ханты-Мансийский авт. округ - Югра': 83,
     'Чукотский автономный округ': 84,
-    'Ямало-Ненецкий автономный округ': 85
+    'Чукотский авт. округ': 84,
+    'Ямало-Ненецкий автономный округ': 85,
+    'Ямало-Ненецкий авт. округ': 85
 }
 
 education_to_col = {
@@ -231,6 +241,16 @@ class EducationDetail(db.Model):
         self.y6569 = data[12]
         self.y70p =  data[13]
 
+class DemograghyRegion(db.Model):
+    id = Column(Integer, primary_key=True)
+    born = Column(Integer)
+    dead = Column(Integer)
+
+    def __init__(self, id, born, dead):
+        self.id = id
+        self.born = born
+        self.dead = dead
+
 def print_err(s):
     print(s, file=sys.stderr)
 
@@ -326,7 +346,7 @@ def maps():
     data = data.replace('%MAP_NUM%', str(ct))
     return data
 
-def calcdata(datatype, filename):
+def calcedudata(datatype, filename):
 
     def get_subdata(sheet, i, col):
         l = []
@@ -393,6 +413,25 @@ def calcdata(datatype, filename):
                 db.session.add(edd)
     db.session.commit()
 
+def calcdemodata(datatype, filename):
+    wb = open_workbook(filename)
+    born = wb.sheets()[0]
+    dead = wb.sheets()[4]
+    data_born = {}
+    for i in range(born.nrows):
+        if born.cell(i,0).value in region_name_to_id:
+            regid = region_name_to_id[born.cell(i,0).value]
+            brn = born.cell(i,19).value
+            data_born[regid] = brn 
+    for i in range(dead.nrows):
+        if dead.cell(i,0).value in region_name_to_id:
+            regid = region_name_to_id[dead.cell(i,0).value]
+            ded = dead.cell(i,19).value
+            brn = data_born[regid]
+            region = DemograghyRegion(regid, brn, ded) 
+            db.session.add(region)
+    db.session.commit()
+
 @app.route('/admin/adddata', methods = ["GET", "POST"])
 @login_required
 def adddata():
@@ -403,7 +442,10 @@ def adddata():
             if file:
                 filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data/'+ str(datatype) +'.xls')
                 file.save(filename)
-                calcdata(datatype, filename)
+                if datatype == 1:
+                    calcedudata(datatype, filename)
+                elif datatype == 2:
+                    calcdemodata(datatype, filename)
 
     with open('include/adddata.html', 'r', encoding="utf-8") as page:
         data=page.read()
@@ -413,7 +455,7 @@ def adddata():
 def stat():
     if request.method == 'POST':
         regionid = int(request.form['regionid'])
-        datatype = 1#int(request.form['datatype
+        datatype = int(request.form['datatype'])
         ret = {}
         if datatype == 1:
             reg_info = EducationRegion.query.filter_by(id=regionid).first()
@@ -455,7 +497,9 @@ def stat():
                 if edu_detail[j].livetype == 2:
                     ret[eduname]['Село'] = sub_dict
         elif datatype == 2:
-            pass
+            reg_info = DemograghyRegion.query.filter_by(id=regionid).first()
+            ret['born'] = reg_info.born
+            ret['dead'] = reg_info.dead
         return jsonify(ret)
     else:
         with open('include/stat.html', 'r', encoding="utf-8") as page:
@@ -476,7 +520,9 @@ def report():
                 bad = data[i].basic + data[i].noeducation
                 ret[data[i].id] = bad/good * 100
         elif datatype == 2:
-            pass
+            data = DemograghyRegion.query.all()
+            for i in range(len(data)):
+                ret[data[i].id] = data[i].born - data[i].dead
         return jsonify(ret)
     else:
         with open('include/report.html', 'r', encoding="utf-8") as page:
