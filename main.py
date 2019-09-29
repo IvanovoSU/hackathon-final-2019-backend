@@ -319,7 +319,10 @@ def maps():
     for i in range(len(mps)):
         mps_str += '<option value="' + str(mps[i].id) + '">'+ mps[i].city + "</option>\n"  
     data = data.replace('%MAPS%', mps_str)
-    data = data.replace('%MAP%', mps[ct-1].show_link)
+    if len(mps) > 0:
+        data = data.replace('%MAP%', mps[ct-1].show_link)
+    else:
+        data = data.replace('%MAP%', '')
     data = data.replace('%MAP_NUM%', str(ct))
     return data
 
