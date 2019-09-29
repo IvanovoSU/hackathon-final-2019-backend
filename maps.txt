@@ -1,0 +1,11 @@
+Иваново
+Ссылка:https://yandex.ru/maps/?um=constructor%3A898316623734a19c850b6ea25b707347da008f9894d23e9cd39afcdac7cc64d0&source=constructorLink
+JS:<script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A898316623734a19c850b6ea25b707347da008f9894d23e9cd39afcdac7cc64d0&amp;width=640&amp;height=480&amp;lang=ru_RU&amp;scroll=true"></script>
+
+Нижний Новгород
+Ссылка:https://yandex.ru/maps/?um=constructor%3Adc157fc5cf027956c910e959457197b78732ef29fdf8e23b68dedf51eeeacf81&source=constructorLink
+JS:<script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3Adc157fc5cf027956c910e959457197b78732ef29fdf8e23b68dedf51eeeacf81&amp;width=640&amp;height=480&amp;lang=ru_RU&amp;scroll=true"></script>
+
+Казань
+Ссылка:https://yandex.ru/maps/?um=constructor%3A16571e5dfeaeb67880e7bb69093d30a17d04e30ba1454fc1a80a836f24748435&source=constructorLink
+JS:<script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A16571e5dfeaeb67880e7bb69093d30a17d04e30ba1454fc1a80a836f24748435&amp;width=640&amp;height=480&amp;lang=ru_RU&amp;scroll=true"></script>
