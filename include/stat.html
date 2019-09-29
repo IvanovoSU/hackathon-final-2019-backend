@@ -369,6 +369,8 @@ function updateHorCharts(eduname) {
     if (horchart1 != undefined) {
         horchart1.destroy();
     }
+    eduname = eduname.split(' (')[0]
+    console.log(eduname)
     labels = []
     piedata1 = []
     piedata2 = []
