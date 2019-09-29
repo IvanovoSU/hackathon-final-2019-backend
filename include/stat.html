@@ -313,16 +313,22 @@ function updatePieChart() {
     piedata = []
     bgcolors = []
     if (datatype == 1) { 
+        sum = 0
         for (var key in regdata['general']) {
-            labels.push(key)
             piedata.push(regdata['general'][key])
+            sum += regdata['general'][key]
             r = (Math.random() * 130 + 70).toString()
             g = (Math.random() * 130 + 70).toString()
             b = (Math.random() * 130 + 70).toString()
             bgcolors.push('rgba(' + r + ',' + g + ',' + b + ')')
         }
+        for (var key in regdata['general']) {
+            labels.push(key + " ("+ (regdata['general'][key] / sum * 100).toFixed(2) + "%)")
+        }
     } else if (datatype == 2) {
-        labels = ['Родилось в 2018', 'Умерло в 2018']
+        sum = regdata['born'] + regdata['dead']
+        labels = ['Родилось в 2018 (' + (regdata['born'] / sum * 100).toFixed(2) + '%)', 
+                  'Умерло в 2018 (' + (regdata['dead'] / sum * 100).toFixed(2) + '%)']
         piedata = [regdata['born'], regdata['dead']]
         bgcolors = ['rgba(0, 200, 0)', 'rgba(200, 0, 0)']
     }
