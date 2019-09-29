@@ -12,6 +12,7 @@
 <script type="text/javascript" src="js/script.js"></script>
 <script type="text/javascript">$(function() {$('.map').maphilight();});</script>
 <script type="text/javascript" src="js/tooltip.js"></script>
+<script type="text/javascript" src="js/chart.js" ></script>
 
 <style type="text/css">
 #tooltip{background:#FFFFFF;
@@ -33,7 +34,16 @@ visibility:hidden
         </nav>
         <main class="cd-main-content">
             <a href="#0" class="cd-btn">Параметры</a>
-			<img class="map" src="https://konyakov.ru/pubs/rr/800px-Blank_map_of_Russia-gray.gif" usemap="#rf"/>
+			<img class="map" src="img/map.gif" usemap="#rf"/>
+            <div>
+                <canvas id="piechart"></canvas>
+            </div>
+            <div>
+                <canvas id="horchart1"></canvas>
+            </div>
+            <div>
+                <canvas id="horchart2"></canvas>
+            </div>
         </main>
         <div class="cd-panel from-left">
             <header class="cd-panel-header">
@@ -236,14 +246,12 @@ visibility:hidden
 </map>
 <!--end of map-->
 
-
- 
 <form method="post" id="ajax_form" action="" > 
 <input type="hidden" id="regionid" name="regionid"/><br> 
 
 </form>
 <script type="text/javascript">
-var data = {};
+var regdata = {};
 var selected = 1;
 
 function myFunction(elmnt) {
@@ -261,13 +269,141 @@ function sendAjaxForm() {
         dataType: "html", 
         data: $("#ajax_form").serialize(),  
         success: function(response) { //Данные отправлены успешно
-            data = $.parseJSON(response);
+            regdata = $.parseJSON(response);
+            updatePieChart();
         },
         error: function(response) {
             $('#result_form').html('Ошибка. Данные не отправлены.');
         }
     });
 }
+
+var ctx = document.getElementById('piechart').getContext('2d');
+var piechart = undefined;
+
+function updatePieChart() {
+    if (piechart != undefined) {
+        piechart.destroy();
+    }
+    labels = []
+    piedata = []
+    bgcolors = []
+    for (var key in regdata['general']) {
+        labels.push(key)
+        piedata.push(regdata['general'][key])
+        r = (Math.random() * 255).toString()
+        g = (Math.random() * 255).toString()
+        b = (Math.random() * 255).toString()
+        bgcolors.push('rgba(' + r + ',' + g + ',' + b + ')')
+    }
+    piechart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'pie',
+ 
+    // The data for our dataset
+    data: {
+        labels: labels,
+        datasets: [{
+            label: '',
+            backgroundColor: bgcolors,
+            data: piedata
+        }]
+    }
+});
+}
+
+document.getElementById("piechart").onclick = function(evt){
+    var activePoints = piechart.getElementsAtEvent(evt);
+    idx = activePoints[0]._index
+    updateHorCharts(piechart.data.labels[idx])
+    // => activePoints is an array of points on the canvas that are at the same position as the click event.
+};
+
+
+var ctx1 = document.getElementById('horchart1').getContext('2d');
+var ctx2 = document.getElementById('horchart2').getContext('2d');
+var horchart1 = undefined;
+var horchart2 = undefined;
+
+function updateHorCharts(eduname) {
+    if (horchart1 != undefined) {
+        horchart1.destroy();
+    }
+    labels = []
+    piedata1 = []
+    piedata2 = []
+    bgcolors1 = []
+    bgcolors2 = []
+    for (var key in regdata[eduname]['М']) {
+        labels.push(key)
+        piedata1.push(regdata[eduname]['М'][key])
+        piedata2.push(regdata[eduname]['Ж'][key])
+        r = (Math.random() * 255).toString()
+        g = (Math.random() * 255).toString()
+        b = (Math.random() * 255).toString()
+        bgcolors1.push('rgba(0, 0, 255)')
+        bgcolors2.push('rgba(255,0,255)')
+    }
+    horchart1 = new Chart(ctx1, {
+    // The type of chart we want to create
+    type: 'horizontalBar',
+ 
+    // The data for our dataset
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Мужчины',
+            backgroundColor: bgcolors1,
+            data: piedata1
+        },{
+            label: 'Женщины',
+            backgroundColor: bgcolors2,
+            data: piedata2
+        }]
+    },
+    plugins: [{
+    beforeDraw: function (chart) {
+      var labels = chart.data.labels;
+    }
+  }]});
+    if (horchart2 != undefined) {
+        horchart2.destroy();
+    }
+    labels = []
+    piedata1 = []
+    piedata2 = []
+    bgcolors1 = []
+    bgcolors2 = []
+    for (var key in regdata[eduname]['Город']) {
+        labels.push(key)
+        piedata1.push(regdata[eduname]['Город'][key])
+        piedata2.push(regdata[eduname]['Село'][key])
+        r = (Math.random() * 255).toString()
+        g = (Math.random() * 255).toString()
+        b = (Math.random() * 255).toString()
+        bgcolors1.push('rgba(0, 255, 255)')
+        bgcolors2.push('rgba(0,255,0)')
+    }
+    horchart2 = new Chart(ctx2, {
+    // The type of chart we want to create
+    type: 'horizontalBar',
+ 
+    // The data for our dataset
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'Городское население',
+            backgroundColor: bgcolors1,
+            data: piedata1
+        },{
+            label: 'Сельское население',
+            backgroundColor: bgcolors2,
+            data: piedata2
+        }]
+    }});
+}
+
+
 </script>
 </body>
 </html>
