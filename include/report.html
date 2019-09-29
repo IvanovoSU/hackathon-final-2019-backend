@@ -243,7 +243,7 @@ visibility:hidden
 
  
 <form method="post" id="regiondata" action="" > 
-<input type="hidden" id="datatype" name="datatype" value="1"/><br> 
+<input type="hidden" id="datatype" name="datatype" value="2"/><br> 
 </form>
 <script type="text/javascript">
 function sendAjaxForm() {
@@ -253,19 +253,34 @@ function sendAjaxForm() {
         dataType: "html", 
         data: $("#regiondata").serialize(),  
         success: function(response) { //Данные отправлены успешно
-            data = $.parseJSON(response);
-            for(var key in data) {
+            regdata = $.parseJSON(response);
+            for(var key in regdata) {
                 elem = document.getElementById(key);
-                value = data[key];
+                value = regdata[key];
                 if (elem != undefined) {
-                    if (value > 10) {
-                        elem.classList.add('verybad');
-                    } else if (value > 8) {
-                        elem.classList.add('veryok')
-                    } else {
-                        elem.classList.add('verygood')
+                    var data = $('#' + key.toString()).mouseout().data('maphilight') || {};
+                    data.alwaysOn = true;
+                    if (datatype == 1) {
+
+                    } else if (datatype == 2) {
+                        console.log(value)
+                        if (value < 0.8) {
+                            data.fillColor = 'FF0000';
+                            data.strokeColor = 'cc0000';
+                            elem.classList.add('verybad');
+                        } else if (value > 1.2) {
+                            data.fillColor = 'FFFF00';
+                            data.strokeColor = 'cccc00';
+                            elem.classList.add('veryok')
+                        } else {
+                            data.fillColor = '00FF00';
+                            data.strokeColor = '00ff00';
+                            elem.classList.add('verygood')
+                        } 
                     }
+                    $('#' + key.toString()).data('maphilight', data).trigger('alwaysOn.maphilight');
                 }
+
             }
         },
         error: function(response) {
@@ -279,16 +294,6 @@ sendAjaxForm();
 function myFunction(elmnt) {
     
 }
-
- $('#67,#link1').click(function(e) {
-            e.preventDefault();
-            var data = $('#67').mouseout().data('maphilight') || {};
-            data.alwaysOn = !data.alwaysOn;
-            data.fillColor = 'FF0000';
-            data.strokeColor = 'cc0000';
-            $('#67').data('maphilight', data).trigger('alwaysOn.maphilight');
-        });
-
 </script>
 </body>
 </html>

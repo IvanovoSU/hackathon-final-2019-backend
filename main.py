@@ -522,7 +522,7 @@ def report():
         elif datatype == 2:
             data = DemograghyRegion.query.all()
             for i in range(len(data)):
-                ret[data[i].id] = data[i].born - data[i].dead
+                ret[data[i].id] = data[i].born/data[i].dead
         return jsonify(ret)
     else:
         with open('include/report.html', 'r', encoding="utf-8") as page:
